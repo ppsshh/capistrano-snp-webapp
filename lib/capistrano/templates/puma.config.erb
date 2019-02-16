@@ -1,0 +1,26 @@
+#!/usr/bin/env puma
+
+directory "<%= current_path %>"
+rackup "<%= File.join(current_path, 'config.ru')%>"
+environment "<%= fetch(:stage) %>"
+
+pidfile "<%= File.join(shared_path, 'tmp', 'pids', 'puma.pid') %>"
+state_path "<%= File.join(shared_path, 'tmp', 'pids', 'puma.state') %>"
+stdout_redirect "<%= File.join(shared_path, 'log', 'puma_access.log') %>", "<%= File.join(shared_path, 'log', 'puma_error.log') %>", true
+
+
+threads 0,16
+
+bind "unix://<%= File.join(shared_path, 'tmp', 'sockets', 'puma.sock') %>"
+
+workers 0
+
+
+prune_bundler
+
+
+on_restart do
+  puts 'Refreshing Gemfile'
+  ENV["BUNDLE_GEMFILE"] = ""
+end
+

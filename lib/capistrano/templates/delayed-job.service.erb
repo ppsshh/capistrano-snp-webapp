@@ -1,0 +1,14 @@
+[Unit]
+Description=Delayed Job process for <%= fetch(:app_id) %>
+After=network.target
+
+[Service]
+Type=simple
+User=<%= local_user %>
+WorkingDirectory=<%= current_path %>
+Environment=RAILS_ENV=<%= fetch(:stage) %>
+ExecStart=/bin/bash -lc '<%= File.join(current_path, 'bin', 'delayed_job') %> run'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

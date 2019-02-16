@@ -1,0 +1,15 @@
+[Unit]
+Description=Puma server for <%= fetch(:app_id) %>
+After=network.target
+
+[Service]
+Type=simple
+User=<%= local_user %>
+WorkingDirectory=<%= current_path %>
+Environment=RAILS_ENV=<%= fetch(:stage) %>
+ExecStart=/bin/bash -lc 'bundle exec puma -C <%= fetch(:puma_config_path) %>'
+ExecReload=/bin/kill -SIGUSR2 $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

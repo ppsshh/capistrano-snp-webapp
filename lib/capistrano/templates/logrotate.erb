@@ -1,0 +1,10 @@
+<%= File.join(shared_path, 'log', '*log') %> {
+    create 0644 <%= local_user %> <%= local_user %>
+    daily
+    rotate <%= fetch(:logrotate_days) %>
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    copytruncate
+}
