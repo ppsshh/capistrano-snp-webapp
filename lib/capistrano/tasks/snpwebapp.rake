@@ -39,7 +39,10 @@ namespace :snpwebapp do
             root: true)
 
       upload_template('logrotate',
-             File.join("/etc/logrotate.d", "#{fetch(:app_id)}"), root: true)
+            File.join("/etc/logrotate.d", "#{fetch(:app_id)}"), root: true)
+
+      upload_template('nginx',
+            File.join("/etc/nginx/conf.d", "#{fetch(:app_id)}.conf"), root: true)
 
       upload_template('puma.config', fetch(:puma_config_path))
     end
